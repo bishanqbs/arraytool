@@ -1,87 +1,107 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import DragHandler from './draghandler';
 
-type MyProps = {
-  // using `interface` is also ok
-  message: string;
-};
-type MyState = {
-  count: number; // like this
-};
+function Grid(props: any) {
 
-class Grid extends React.Component {
-  
-  // Default grid
-  state = {
-    grid : [
+  const [grid, newState] = useState({
+    // Default flexiGrid
+    flexiGrid: [
       [1, 2, 3],
       [1, 2, 3],
       [1, 2, 3]
-    ]
-  }
-
-  updateGrid = (side: string) => {
-    
-    switch (side) {
-      case "row":
-        this.PlusMinusRow()
-        break;
-      case "Column":
-        this.PlusMinusColm()
-        break;
-      default:
-        break;
+    ],
+    defaultGrid: [],
+    size: {
+      "row": 3,
+      "column": 3
     }
-    // this.setState({ "grid": this.state.grid})
-  }
+  })
 
-  /**
-   * PlusMinusRow
-   * Adding Subtracting Row
-   * + - => need to pass
-   */
-  PlusMinusRow = () => {
-    let gridArr = this.state.grid;
+  // Once - Generate
+  useEffect(() => {
+    generateDefaultGrid()
+  }, [])
 
-    if(gridArr.length == 12) return; // Stop while row FULL
-
-    let lastRow = gridArr[gridArr.length - 1];
-    gridArr.push(lastRow);
-
-    this.setState({ "grid": gridArr})  // Set []    
-  }
-
-  /**
-   * PlusMinusColm
-   * Adding Subtracting Column
-   * + - => need to pass
-   */
-  PlusMinusColm = () => {
-    var aarowArr = JSON.stringify(this.state.grid);
-    var rowArr = JSON.parse(aarowArr);
-    
-    for (let index = 0; index < rowArr.length; index++) {
-      var trowArr = rowArr[index];
-
-      if(trowArr.length == 12) return; // Stop while colomn FULL
-
-      var lastValue = trowArr[trowArr.length - 1] + 1;
-      trowArr.push(lastValue)
+  // Update Grid based on Row Column
+  const updateFlexiGrid = (rowLimit: number, colLimit: number) => {
+    let table: any = [];
+    for (let index = 0; index < (12 - rowLimit); index++) {
+      let row = [];
+      for (let index = 0; index <= colLimit; index++) {
+        let col = 'c';
+        row.push(col);
+      }
+      table.push(row)
     }
+    newState(prevState => {
+      return {
+        ...prevState,
+        "flexiGrid": table,
+        "size": {
+          "row": 12 - rowLimit,
+          "column": colLimit + 1
+        }
+      }
+    });
 
-    this.setState({ "grid": rowArr}) // Set []
+    // Send Update to main component
+    props.setFinalArray({
+      "row": 12 - rowLimit,
+      "column": colLimit + 1
+    });
   }
 
-  render() {
-    return (
-      <div className="griD">
+  // Generate Default Grid
+  const generateDefaultGrid = () => {
+    let table: any = [];
+    for (let index = 0; index < 12; index++) {
+      let row = [];
+      for (let index = 0; index < 12; index++) {
+        let col = 'c';
+        row.push(col);
+      }
+      table.push(row)
+    }
+    newState(prevState => {
+      return {
+        ...prevState,
+        "defaultGrid": table
+      }
+    })
+  }
+
+  return (
+    <div className="griD">
+
+      <em>Drag the corner to create the desired number of rows and columns.</em>
+      <div className="defaultGrid">
         {
-          this.state.grid.map((row, i) => {
+          grid.defaultGrid.map((drow: any, i) => {
             return (
-              <div className="row" key={"r_"+i}>
+              <div className="row" key={"dr_" + i}>
+                {
+                  drow.map((colm: any, n: number) => {
+                    return (
+                      <div id={(i) + '_' + (n)} key={"dc_" + n} className="cellS blank">&nbsp;</div>
+                    )
+                  })
+                }
+              </div>
+            )
+          })
+        }
+      </div>
+      <div className="flexGrid">
+        <DragHandler update={updateFlexiGrid} />
+
+        {
+          grid.flexiGrid.map((row, i) => {
+            return (
+              <div className="row" key={"r_" + i}>
                 {
                   row.map((colm, n) => {
                     return (
-                      <div key={"c_"+n} className="cellS">{colm}</div>
+                      <div key={"c_" + n} className="cellS">&nbsp;</div>
                     )
                   })
                 }
@@ -90,14 +110,11 @@ class Grid extends React.Component {
           })
         }
 
-        <button onClick={() => this.updateGrid('row')}>Update Row</button>
-        <button onClick={() => this.updateGrid('Column')}>Update Column</button>
+        <span className="size_col">{props.dimension ? grid.size.column : ''}</span>
+        <span className="size_row">{props.dimension ? grid.size.row : ''}</span>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-
-export default Grid
-// ReactDOM.render(<Grid />, document.getElementById('root'));
-
+export default Grid;
