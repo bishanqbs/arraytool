@@ -15,12 +15,90 @@ function Grid(props: any) {
       "row": 3,
       "column": 3
     }
-  })
+  });
 
-  // Once - Generate
+  const osMulDivBtns = props.seeEqu;
+  const [osMultiplication, setOSMultiplication] = useState(false);
+  const [osDivision, setOSDivision] = useState(false);
+  const [printEquation, setPrintEquation] = useState(():any => [
+    '3 &times; 3 = 9',
+    '9 &divide; 3 = 3'
+  ]);
+  const [userCorrect, setUserCorrect] = useState(():any => '')
+
+  // Once - Generate default gird
   useEffect(() => {
     generateDefaultGrid()
   }, [])
+
+  // Check on every check Buttont Hit
+  useEffect(() => {
+    if(props.checkBtnHit > 0) {
+      checkArrayFunction(props.task);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.checkBtnHit]);
+
+  // Update grid while switching between task(s)
+  useEffect(() => {
+    newState(prevState => {
+      return {
+        ...prevState,
+        flexiGrid: [
+          [1, 2, 3],
+          [1, 2, 3],
+          [1, 2, 3]
+        ],
+        size: {
+          "row": 3,
+          "column": 3
+        }
+      }
+    });
+    updateFlexiGrid(9,2);
+    setOSMultiplication(false);
+    setOSDivision(false)
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.task]);
+
+  // Validating User answer
+  const checkArrayFunction = (obj:any) => {
+    // Expected Equation
+    let possibleEquns:any = [];
+    if(obj.operator === 'multiply') {
+      possibleEquns.push(obj['column'] + ' &times; ' + obj['row'] + ' = ' + (obj['column'] * obj['row']))
+      possibleEquns.push(obj['row'] + ' &times; ' + obj['column'] + ' = ' + (obj['column'] * obj['row']))
+    } else {
+      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row'])
+      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'])
+    }
+
+    setUserCorrect(false)
+    for (let index = 0; index < possibleEquns.length; index++) {
+      const tempEq = possibleEquns[index];
+      
+      if(obj.operator === 'multiply'){
+        if (printEquation[0] === tempEq) {
+          setUserCorrect(true);
+          break;
+        }
+      }
+      if(obj.operator === 'devide'){
+        if (printEquation[1] === tempEq) {
+          setUserCorrect(true);
+          break;
+        }
+      }
+    }
+
+    setTimeout(() => {
+      setUserCorrect('')
+    }, 2500);
+    
+    
+    
+  }
 
   // Update Grid based on Row Column
   const updateFlexiGrid = (rowLimit: number, colLimit: number) => {
@@ -33,6 +111,8 @@ function Grid(props: any) {
       }
       table.push(row)
     }
+
+    // Update grid OnScreen
     newState(prevState => {
       return {
         ...prevState,
@@ -44,11 +124,19 @@ function Grid(props: any) {
       }
     });
 
-    // Send Update to main component
+    // Send Update to main/parent component
     props.setFinalArray({
       "row": 12 - rowLimit,
       "column": colLimit + 1
     });
+
+    // Preset Equation(s)
+    const meq = (colLimit + 1) + ' &times; ' + (12 - rowLimit) + ' = ' +  ((12 - rowLimit)*(colLimit + 1));
+    const deq = ((12 - rowLimit)*(colLimit + 1)) + ' &divide; ' + (colLimit + 1) + ' = ' +  (12 - rowLimit);
+    setPrintEquation([ meq, deq ]);
+
+    // Reset feedback
+    setUserCorrect('');
   }
 
   // Generate Default Grid
@@ -74,6 +162,12 @@ function Grid(props: any) {
     <div className="griD">
 
       <em>Drag the corner to create the desired number of rows and columns.</em>
+      <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
+        {
+          (userCorrect && userCorrect !== '') ? 'Array is correct!' : (!userCorrect && userCorrect !== '') ? 'Array is incorrect!' : ''
+        }
+      </span>
+
       <div className="defaultGrid">
         {
           grid.defaultGrid.map((drow: any, i) => {
@@ -112,7 +206,37 @@ function Grid(props: any) {
 
         <span className="size_col">{props.dimension ? grid.size.column : ''}</span>
         <span className="size_row">{props.dimension ? grid.size.row : ''}</span>
+
+        {
+          (osMultiplication || osDivision) &&
+            <span className="equation" dangerouslySetInnerHTML={{__html: (osMultiplication) ? printEquation[0] : printEquation[1]}}></span>
+        }
       </div>
+
+      {
+        // On screem multiply and division button
+        (osMulDivBtns) &&
+        <>
+          <span
+            className={"showEqn m " + (osMultiplication ? 'active' : '')}
+            onClick={() => {
+              setOSMultiplication(!osMultiplication);
+              setOSDivision(false);
+            }}
+          >
+            Show multiplication
+          </span>
+          <span
+            className={"showEqn d " + (osDivision ? 'active' : '')}
+            onClick={() => {
+              setOSDivision(!osDivision);
+              setOSMultiplication(false);
+            }}
+          >
+            Show division
+          </span>
+        </>
+      }
     </div>
   )
 }
