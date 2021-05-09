@@ -9,58 +9,71 @@ import QuestionBuilder from './components/questionBuilder';
 
 function ArrayTool() {
 
+  const [data, setData] = useState(():any => {});
+  const [taskCounter, updateTaskCounter] = useState(-1);
+  const [taskLength, settaskLength] = useState(0);
+  const [tooltitle, settooltitle] = useState('');
+  const [toolmode, settoolmode] = useState('');
+
+  const [checkArrBtnEnable, setcheckArrBtnEnable] = useState(false);
+  const [seeEquationBtns, setseeEquationBtns] = useState(false);
+  const [enableBuildEqun, setenableBuildEqun] = useState(false);
+  const [task, settask] = useState();
+
   // Fetching JSON and setting data
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
         './data/data.json'
       );
-
-      const data = await response.json();
+      const jsonData = await response.json();
       
-      settaskLength(data.questionSet.length);
-      settooltitle(data['title']);
-      settoolmode(data.questionSet[taskCounter]['mode']);
-      setcheckArrBtnEnable(data.questionSet[taskCounter]['checkarray'])
-      setseeEquationBtns(data.questionSet[taskCounter]['seeEquationBtns'])
-      setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
-      settask(data.questionSet[taskCounter]['task']);
+      setData(jsonData);
+      updateTaskCounter(0);
     };
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [taskCounter, updateTaskCounter] = useState(0);
-  const [taskLength, settaskLength] = useState(0);
-  const [tooltitle, settooltitle] = useState('');
-  const [toolmode, settoolmode] = useState('');
+  // Each counter/task update
+  useEffect(() => {
+    if(data === undefined) return;
+    
+    settaskLength(data.questionSet.length);
+    settooltitle(data['title']);
+    settoolmode(data.questionSet[taskCounter]['mode']);
+    setcheckArrBtnEnable(data.questionSet[taskCounter]['checkarray'])
+    setseeEquationBtns(data.questionSet[taskCounter]['seeEquationBtns'])
+    setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
+    settask(data.questionSet[taskCounter]['task']);
 
-  const [checkArrBtnEnable, setcheckArrBtnEnable] = useState();
-  const [seeEquationBtns, setseeEquationBtns] = useState();
-  const [enableBuildEqun, setenableBuildEqun] = useState();
-  const [task, settask] = useState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskCounter])
 
-  const [showDimension, setShowDimension] = useState(false);
-  const [queBuilderState, setQuestionBuilder] = useState(false);
+  const [showDimension, setShowDimension] = useState(false); // How hide dimension state
+  const toggleDimension = () => {
+    setShowDimension(!showDimension);
+  }
+  
+  const [queBuilderState, setQuestionBuilder] = useState(false); // Enable/Disable Question Builder
+  const toggleQueBuilder = () => {
+    setQuestionBuilder(!queBuilderState);
+  }
+
+  // Update Final Array
   const [finalArray, setFinalArray] = useState({
     "row": 3,
     "column": 3
   });
 
-  const toggleDimension = () => {
-    setShowDimension(!showDimension);
-  }
-
-  const toggleQueBuilder = () => {
-    setQuestionBuilder(!queBuilderState);
-  }
-
+  // Check Button
   const [checkBtnHit, setCheckBtnHit] = useState(0);
   const checkArrayClicked = () => {
     setCheckBtnHit(checkBtnHit => checkBtnHit + 1);
   }
 
+  // Next/Previous Task Navigation
   const updateTask = (op: string) => {
     if (op === "+") {
       updateTaskCounter(taskCounter => taskCounter + 1)
