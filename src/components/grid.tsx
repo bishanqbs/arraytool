@@ -70,34 +70,50 @@ function Grid(props: any) {
       possibleEquns.push(obj['column'] + ' &times; ' + obj['row'] + ' = ' + (obj['column'] * obj['row']))
       possibleEquns.push(obj['row'] + ' &times; ' + obj['column'] + ' = ' + (obj['column'] * obj['row']))
     } else {
-      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row'])
-      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'])
+      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column']);
+      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row']);
+      // possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'])
     }
 
-    setUserCorrect(false)
+    setUserCorrect(false);
+    
     for (let index = 0; index < possibleEquns.length; index++) {
       const tempEq = possibleEquns[index];
       
       if(obj.operator === 'multiply'){
         if (printEquation[0] === tempEq) {
-          setUserCorrect(true);
+
+          if(obj.getuserinput && props.qSetAns) {
+            setUserCorrect(true);
+          }
+          if(!obj.getuserinput) {
+            setUserCorrect(true);
+          }
           break;
         }
       }
       if(obj.operator === 'devide'){
+        console.log(printEquation[1]);
+        console.log(tempEq);
         if (printEquation[1] === tempEq) {
-          setUserCorrect(true);
+
+          if(obj.getuserinput && props.qSetAns) {
+            setUserCorrect(true);
+          }
+          if(!obj.getuserinput) {
+            setUserCorrect(true);
+          }
           break;
         }
       }
     }
 
+    // console.log(props.qSetAns);
+    
+
     setTimeout(() => {
       setUserCorrect('')
-    }, 2500);
-    
-    
-    
+    }, 2500); 
   }
 
   // Update Grid based on Row Column
@@ -131,8 +147,13 @@ function Grid(props: any) {
     });
 
     // Preset Equation(s)
-    const meq = (colLimit + 1) + ' &times; ' + (12 - rowLimit) + ' = ' +  ((12 - rowLimit)*(colLimit + 1));
-    const deq = ((12 - rowLimit)*(colLimit + 1)) + ' &divide; ' + (colLimit + 1) + ' = ' +  (12 - rowLimit);
+    let cRow = 12 - rowLimit;
+    let cColm = colLimit + 1;
+    const meq = cRow + ' &times; ' + cColm + ' = ' +  cRow*cColm;
+    const deq = 
+      cRow*cColm + ' &divide; ' + cColm + ' = ' + cRow + '<br>' +
+      cRow*cColm + ' &divide; ' + cRow + ' = ' + cColm
+    ;
     setPrintEquation([ meq, deq ]);
 
     // Reset feedback
@@ -161,10 +182,10 @@ function Grid(props: any) {
   return (
     <div className="griD">
 
-      <em>Drag the corner to create the desired number of rows and columns.</em>
+      <em>Drag the corner to make rows and columns.</em>
       <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
         {
-          (userCorrect && userCorrect !== '') ? 'Array is correct!' : (!userCorrect && userCorrect !== '') ? 'Array is incorrect!' : ''
+          (userCorrect && userCorrect !== '') ? 'Array is correct!' : (!userCorrect && userCorrect !== '') ? 'Try again.' : ''
         }
       </span>
 

@@ -5,19 +5,22 @@
             "mode" : "explore",
             "buildequation": true,
             "checkarray": false,
-            "seeEquationBtns": false,
+            "seeEquationBtns": true,
             "task": {}
         },
         {
             "mode" : "equation",
             "buildequation": true,
             "checkarray": true,
-            "seeEquationBtns": true,
+            "seeEquationBtns": false,
             "task": {
+                "number": 1,
                 "question": "Show 6 × 5. Make 6 rows of 5.",
                 "operator": "multiply",
                 "row": 6,
-                "column" : 5
+                "column" : 5,
+                "getuserinput": true,
+                "outcome": "Student manipulates onscreen tool to create 6 rows of 5."
             }
         },
         {
@@ -26,22 +29,28 @@
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
+                "number": 2,
                 "question": "Show 5 × 6. Make 5 rows of 6.",
                 "operator": "multiply",
                 "row": 5,
-                "column" : 6
+                "column" : 6,
+                "getuserinput": true,
+                "outcome": "Student manipulates onscreen tool to create 6 rows of 5."
             }
         },
         {
             "mode" : "equation",
-            "buildequation": false,
+            "buildequation": true,
             "checkarray": true,
-            "seeEquationBtns": true,
+            "seeEquationBtns": false,
             "task": {
+                "number": 3,
                 "question": "Show 42 ÷ 7 = 6.",
                 "operator": "devide",
                 "row": 7,
-                "column" : 6
+                "column" : 6,
+                "getuserinput": false,
+                "outcome": "Student shows 7 rows of 6 <u>or</u> 6 rows of 7."
             }
         }
     ]

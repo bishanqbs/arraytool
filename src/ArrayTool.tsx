@@ -4,6 +4,7 @@ import './AppStyle.scss';
 import Grid from './components/grid';
 import ButtonSet from './components/buttonSet';
 import QuestionBuilder from './components/questionBuilder';
+import QuestionSet from './components/questionSet';
 
 // import * as data from './data/data.json';
 
@@ -47,6 +48,7 @@ function ArrayTool() {
     setseeEquationBtns(data.questionSet[taskCounter]['seeEquationBtns'])
     setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
     settask(data.questionSet[taskCounter]['task']);
+    setqSetUserAns(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskCounter])
@@ -82,6 +84,12 @@ function ArrayTool() {
     }
   }
 
+  // 
+  const [qSetUserAns, setqSetUserAns] = useState(false);
+  const qSetAns = (ans:any) => {
+    setqSetUserAns(ans)
+  }
+
   return (
     <div className="arrayTool">
       <header>
@@ -95,7 +103,16 @@ function ArrayTool() {
         checkBtnHit={checkBtnHit}
         task={task}
         seeEqu={seeEquationBtns}
+        qSetAns={qSetUserAns}
       />
+
+      {
+        (checkArrBtnEnable) &&
+        <QuestionSet
+          task={task}
+          qSetAns={qSetAns}
+        />
+      }
 
       <ButtonSet
         toggleDimension={[toggleDimension, showDimension]}

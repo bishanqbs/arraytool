@@ -83,7 +83,7 @@ function QuestionBuilder(props: any) {
         }
         {
           (userAnswer === 'incorrect') &&
-            <>Please try again!</>
+            <>Try again.</>
         }
       </span>
 
