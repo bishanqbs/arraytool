@@ -67,11 +67,17 @@ function Grid(props: any) {
     // Expected Equation
     let possibleEquns:any = [];
     if(obj.operator === 'multiply') {
-      possibleEquns.push(obj['column'] + ' &times; ' + obj['row'] + ' = ' + (obj['column'] * obj['row']))
       possibleEquns.push(obj['row'] + ' &times; ' + obj['column'] + ' = ' + (obj['column'] * obj['row']))
+
+      // If validation for two possibilities
+      if(obj['twoWayValidation']) {
+        possibleEquns.push(obj['column'] + ' &times; ' + obj['row'] + ' = ' + (obj['column'] * obj['row']))
+      }
     } else {
       possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column']);
-      possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row']);
+      if(obj['twoWayValidation']) {
+        possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row']);
+      }
       // possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'])
     }
 
@@ -83,12 +89,13 @@ function Grid(props: any) {
       if(obj.operator === 'multiply'){
         if (printEquation[0] === tempEq) {
 
-          if(obj.getuserinput && props.qSetAns) {
-            setUserCorrect(true);
-          }
-          if(!obj.getuserinput) {
-            setUserCorrect(true);
-          }
+          setUserCorrect(true);
+          // if(obj.getuserinput && props.qSetAns) {
+          //   setUserCorrect(true);
+          // }
+          // if(!obj.getuserinput) {
+          //   setUserCorrect(true);
+          // }
           break;
         }
       }
@@ -97,12 +104,13 @@ function Grid(props: any) {
         console.log(tempEq);
         if (printEquation[1] === tempEq) {
 
-          if(obj.getuserinput && props.qSetAns) {
-            setUserCorrect(true);
-          }
-          if(!obj.getuserinput) {
-            setUserCorrect(true);
-          }
+          setUserCorrect(true);
+          // if(obj.getuserinput && props.qSetAns) {
+          //   setUserCorrect(true);
+          // }
+          // if(!obj.getuserinput) {
+          //   setUserCorrect(true);
+          // }
           break;
         }
       }

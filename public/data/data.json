@@ -10,7 +10,7 @@
         },
         {
             "mode" : "equation",
-            "buildequation": true,
+            "buildequation": false,
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
@@ -20,12 +20,13 @@
                 "row": 6,
                 "column" : 5,
                 "getuserinput": true,
+                "twoWayValidation": false,
                 "outcome": "Student manipulates onscreen tool to create 6 rows of 5."
             }
         },
         {
             "mode" : "equation",
-            "buildequation": true,
+            "buildequation": false,
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
@@ -35,6 +36,7 @@
                 "row": 5,
                 "column" : 6,
                 "getuserinput": true,
+                "twoWayValidation": false,
                 "outcome": "Student manipulates onscreen tool to create 6 rows of 5."
             }
         },
@@ -50,6 +52,7 @@
                 "row": 7,
                 "column" : 6,
                 "getuserinput": false,
+                "twoWayValidation": true,
                 "outcome": "Student shows 7 rows of 6 <u>or</u> 6 rows of 7."
             }
         }

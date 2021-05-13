@@ -49,6 +49,8 @@ function ArrayTool() {
     setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
     settask(data.questionSet[taskCounter]['task']);
     setqSetUserAns(false);
+    setShowDimension(false);
+    setQuestionBuilder(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskCounter])
