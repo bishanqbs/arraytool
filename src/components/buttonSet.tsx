@@ -8,15 +8,12 @@ function ButtonSet(props: any) {
           {props.toggleDimension[1] ? 'Hide dimensions' : 'Show dimensions'}
       </div>
 
-      {
-        (props.toggleQueBuilder[1]) &&
-          <div
-            className={props.toggleQueBuilder[1] ? '' : 'disable'}
-            onClick={props.toggleQueBuilder[0]}
-          >
-            Build equation
-          </div>
-      }
+      <div
+        className={props.toggleQueBuilder[1] ? '' : 'disable'}
+        onClick={props.toggleQueBuilder[0]}
+      >
+        Build equation
+      </div>
 
       {
         (props.checkArrBtnEnable) &&
