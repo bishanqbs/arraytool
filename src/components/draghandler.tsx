@@ -6,7 +6,6 @@ function DragHandler(props:any) {
   const handler = useRef(null);
 
   function dragElement(elmnt:any) {
-    // var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
     if(elmnt == null) return;
 
@@ -20,13 +19,12 @@ function DragHandler(props:any) {
       if(e.type === "touchmove"){
         e = e.touches[0]
       }
-      // get the mouse cursor position at startup:
-      // pos3 = e.clientX;
-      // pos4 = e.clientY;
       
+      // call a function whenever the cursor up/touchend:
       document.onmouseup = closeDragElement;
       document.ontouchend = closeDragElement;
-      // call a function whenever the cursor moves:
+
+      // call a function whenever the cursor moves/touchstart:
       document.onmousemove = elementDrag;
       document.ontouchmove = elementDrag;
     }
@@ -39,16 +37,6 @@ function DragHandler(props:any) {
       if(e.type === "touchmove"){
         e = e.touches[0]
       }
-
-      // calculate the new cursor position:
-      // pos1 = pos3 - e.clientX;
-      // pos2 = pos4 - e.clientY;
-      // pos3 = e.clientX;
-      // pos4 = e.clientY;
-
-      // set the element's new position:
-      // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-      // elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 
       var x = e.clientX, y = e.clientY;
       var dd = getDropingElement(document.elementsFromPoint(x, y));
@@ -72,7 +60,7 @@ function DragHandler(props:any) {
   
     // Reset
     function closeDragElement(e:any) {
-      /* stop moving when mouse/touch button is released:*/
+      // stop moving when mouse/touch button is released.
       document.onmouseup = null;
       document.ontouchend = null;
       document.onmousemove = null;

@@ -69,7 +69,7 @@ function Grid(props: any) {
     if(obj.operator === 'multiply') {
       possibleEquns.push(obj['row'] + ' &times; ' + obj['column'] + ' = ' + (obj['column'] * obj['row']))
 
-      // If validation for two possibilities
+      // While validating for two possibilities
       if(obj['twoWayValidation']) {
         possibleEquns.push(obj['column'] + ' &times; ' + obj['row'] + ' = ' + (obj['column'] * obj['row']))
       }
@@ -78,7 +78,6 @@ function Grid(props: any) {
       if(obj['twoWayValidation']) {
         possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'] + "<br>" + (obj['column'] * obj['row']) + ' &divide; ' + obj['column'] + ' = ' + obj['row']);
       }
-      // possibleEquns.push((obj['column'] * obj['row']) + ' &divide; ' + obj['row'] + ' = ' + obj['column'])
     }
 
     setUserCorrect(false);
@@ -90,34 +89,17 @@ function Grid(props: any) {
         if (printEquation[0] === tempEq) {
 
           setUserCorrect(true);
-          // if(obj.getuserinput && props.qSetAns) {
-          //   setUserCorrect(true);
-          // }
-          // if(!obj.getuserinput) {
-          //   setUserCorrect(true);
-          // }
           break;
         }
       }
       if(obj.operator === 'devide'){
-        console.log(printEquation[1]);
-        console.log(tempEq);
         if (printEquation[1] === tempEq) {
 
           setUserCorrect(true);
-          // if(obj.getuserinput && props.qSetAns) {
-          //   setUserCorrect(true);
-          // }
-          // if(!obj.getuserinput) {
-          //   setUserCorrect(true);
-          // }
           break;
         }
       }
     }
-
-    // console.log(props.qSetAns);
-    
 
     setTimeout(() => {
       setUserCorrect('')

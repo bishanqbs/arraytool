@@ -17,23 +17,12 @@ function QuestionSet(props: any) {
     setAllowToCheck(false);
   }, [props.task]);
 
-  // const updateValues = () => {
-  //   const fv = parseInt(firstInput.current.value);
-  //   const sv = parseInt(secondInput.current.value);
-
-  //   props.qSetAns(false);
-  //   if(props.task.row === fv && props.task.column === sv){
-  //     props.qSetAns(true);
-  //   }
-  // }
   const checkAnswer = () => {
     const fv = parseInt(firstInput.current.value);
     const sv = parseInt(secondInput.current.value);
 
-    // props.qSetAns(false);
     setUserAnswer('');
     if(props.task.row === fv && props.task.column === sv){
-      // props.qSetAns(true);
       setUserAnswer('correct');
     }
     else {
@@ -73,7 +62,7 @@ function QuestionSet(props: any) {
             <span className={"feedbackText " + (userAnswer)}>
             {
               (userAnswer === 'correct') &&
-                <>The calculation is correct!</>
+                <>Correct!</>
             }
             {
               (userAnswer === 'incorrect') &&

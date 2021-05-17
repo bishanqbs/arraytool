@@ -18,8 +18,12 @@ body {
 
   header {
     position: absolute;
-    top: 27px; left: 52px;
+    top: 17px;
+    left: 30px;
     font-family: "RubikLight";
+    background-color: #fff;
+    padding: 10px 22px;
+    border-radius: 20px;
   
     h1{ font-size: 23px; color: #000; }
     h2{
@@ -139,8 +143,6 @@ body {
       width: 60px;
       height: 60px;
       pointer-events: auto;
-      // background-color: grey;
-      // border-radius: 5px;
     }
 
     .showEqn{
@@ -249,7 +251,6 @@ body {
 
       &.disable {
         background-position: -258px -1px;
-        // color: rgba(255, 255, 255, 0.7);
         pointer-events: none;
       }
     }
@@ -430,8 +431,6 @@ body {
     }
 
     .feedbackText {
-      // position: absolute;
-      // top: 13px; left: 0;
       width: 100%;
       text-align: left;
       font-size: 18px;
@@ -439,7 +438,7 @@ body {
 
       &.correct{
         color: green;
-        line-height: 1.2;
+        line-height: 42px;
       }
       &.incorrect{
         color: red;
@@ -465,12 +464,9 @@ body {
       
       &.disable {
         background-position: -258px -1px;
-        // color: rgba(255, 255, 255, 0.7);
         pointer-events: none;
       }
     }
 
   }
 }
-
-/* #fde073 */
