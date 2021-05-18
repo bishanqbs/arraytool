@@ -79,7 +79,7 @@ function QuestionBuilder(props: any) {
       <span className={"feedbackText " + (userAnswer)}>
         {
           (userAnswer === 'correct') &&
-            <>The calculation is correct!</>
+            <>Correct!</>
         }
         {
           (userAnswer === 'incorrect') &&

@@ -178,7 +178,7 @@ function Grid(props: any) {
       <em>Drag the corner to make rows and columns.</em>
       <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
         {
-          (userCorrect && userCorrect !== '') ? 'Array is correct!' : (!userCorrect && userCorrect !== '') ? 'Try again.' : ''
+          (userCorrect && userCorrect !== '') ? 'Correct!' : (!userCorrect && userCorrect !== '') ? 'Try again.' : ''
         }
       </span>
 
