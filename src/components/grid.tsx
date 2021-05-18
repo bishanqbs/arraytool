@@ -86,7 +86,7 @@ function Grid(props: any) {
       const tempEq = possibleEquns[index];
       
       if(obj.operator === 'multiply'){
-        if (printEquation[0] === tempEq) {
+        if (printEquation[0].split('<br>')[0] === tempEq) {
 
           setUserCorrect(true);
           break;
@@ -139,7 +139,10 @@ function Grid(props: any) {
     // Preset Equation(s)
     let cRow = 12 - rowLimit;
     let cColm = colLimit + 1;
-    const meq = cRow + ' &times; ' + cColm + ' = ' +  cRow*cColm;
+    const meq =
+      cRow + ' &times; ' + cColm + ' = ' +  cRow*cColm + '<br>' + 
+      cColm + ' &times; ' + cRow + ' = ' +  cRow*cColm
+    ;
     const deq = 
       cRow*cColm + ' &divide; ' + cColm + ' = ' + cRow + '<br>' +
       cRow*cColm + ' &divide; ' + cRow + ' = ' + cColm
