@@ -1,5 +1,45 @@
 {
-    "title": "Array tool",
+    "language": "en",
+    "langLabels": {
+        "en": {
+            "title": "Array tool",
+            "mode": {
+                "explore": "Explore Mode",
+                "equation": "Equation Mode"
+            },
+            "showdivision": "Show division",
+            "showmultiplication": "Show Multiplication",
+            "showdimension": "Show Dimension",
+            "hidedimension": "Hide Dimension",
+            "buildequation": "Build equation",
+            "checkarray": "Check array",
+            "check": "Check",
+            "correct": "Correct!",
+            "tryagain": "Try again.",
+            "rows": "rows",
+            "columns": "columns",
+            "instruction": "Drag the corner to make rows and columns."
+        },
+        "ar": {
+            "title": "أداة المصفوفة",
+            "mode": {
+                "explore": "وضع الاستكشاف",
+                "equation": "وضع المعادلة"
+            },
+            "showdivision": "عرض التقسيم",
+            "showmultiplication": "إظهار الضرب",
+            "showdimension": "عرض البعد",
+            "hidedimension": "إخفاء البعد",
+            "buildequation": "بناء المعادلة",
+            "checkarray": "تحقق من المصفوفة",
+            "check": "الشيك",
+            "correct": "صيح!",
+            "tryagain": "حاول مرة أخري.",
+            "rows": "صفوف",
+            "columns": "الأعمدة",
+            "instruction": "اسحب الزاوية لعمل صفوف وأعمدة."
+        }
+    },
     "questionSet" : [
         {
             "mode" : "explore",
@@ -14,8 +54,14 @@
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
-                "number": 1,
-                "question": "Show 6 × 5. Make 6 rows of 5.",
+                "label": {
+                    "en": "Task 1:",
+                    "ar": "مهمة 1:"
+                },
+                "question": {
+                    "en": "Show 6 × 5. Make 6 rows of 5.",
+                    "ar": "إظهار 6 × 5. اصنع 6 صفوف من 5."
+                },
                 "operator": "multiply",
                 "row": 6,
                 "column" : 5,
@@ -30,8 +76,14 @@
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
-                "number": 2,
-                "question": "Show 5 × 6. Make 5 rows of 6.",
+                "label": {
+                    "en": "Task 2:",
+                    "ar": "مهمة 2:"
+                },
+                "question": {
+                    "en": "Show 5 × 6. Make 5 rows of 6.",
+                    "ar": "إظهار 5 × 6. اجعل 5 صفوف من 6."
+                },
                 "operator": "multiply",
                 "row": 5,
                 "column" : 6,
@@ -46,8 +98,14 @@
             "checkarray": true,
             "seeEquationBtns": false,
             "task": {
-                "number": 3,
-                "question": "Show 42 ÷ 7 = 6.",
+                "label": {
+                    "en": "Task 3:",
+                    "ar": "مهمة 3:"
+                },
+                "question": {
+                    "en": "Show 42 ÷ 7 = 6.",
+                    "ar": "أظهر 42 7 = 6."
+                },
                 "operator": "devide",
                 "row": 7,
                 "column" : 6,

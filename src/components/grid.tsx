@@ -175,10 +175,10 @@ function Grid(props: any) {
   return (
     <div className="griD">
 
-      <em>Drag the corner to make rows and columns.</em>
+      <em>{props.langLabels['instruction']}</em>
       <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
         {
-          (userCorrect && userCorrect !== '') ? 'Correct!' : (!userCorrect && userCorrect !== '') ? 'Try again.' : ''
+          (userCorrect && userCorrect !== '') ? props.langLabels['correct'] : (!userCorrect && userCorrect !== '') ? props.langLabels['tryagain'] : ''
         }
       </span>
 
@@ -231,24 +231,24 @@ function Grid(props: any) {
         // On screem multiply and division button
         (osMulDivBtns) &&
         <>
-          <span
+          <button
             className={"showEqn m " + (osMultiplication ? 'active' : '')}
             onClick={() => {
               setOSMultiplication(!osMultiplication);
               setOSDivision(false);
             }}
           >
-            Show multiplication
-          </span>
-          <span
+            {props.langLabels['showmultiplication']}
+          </button>
+          <button
             className={"showEqn d " + (osDivision ? 'active' : '')}
             onClick={() => {
               setOSDivision(!osDivision);
               setOSMultiplication(false);
             }}
           >
-            Show division
-          </span>
+            {props.langLabels['showdivision']}
+          </button>
         </>
       }
     </div>

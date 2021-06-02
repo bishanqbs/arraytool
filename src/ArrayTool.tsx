@@ -5,16 +5,21 @@ import Grid from './components/grid';
 import ButtonSet from './components/buttonSet';
 import QuestionBuilder from './components/questionBuilder';
 import QuestionSet from './components/questionSet';
+import { settings } from 'cluster';
 
 // import * as data from './data/data.json';
 
 function ArrayTool() {
 
   const [data, setData] = useState(():any => {});
+  const [language, setLanguage] = useState("en");
   const [taskCounter, updateTaskCounter] = useState(-1);
   const [taskLength, settaskLength] = useState(0);
-  const [tooltitle, settooltitle] = useState('');
-  const [toolmode, settoolmode] = useState('');
+
+  const [toolsTitle, setToolsTitle] = useState('');
+  const [toolsSubtitle, setToolsSubTitle] = useState('');
+  // const [toolmode, settoolmode] = useState('');
+  const [langLabels, setLangLabels] = useState({});
 
   const [checkArrBtnEnable, setcheckArrBtnEnable] = useState(false);
   const [seeEquationBtns, setseeEquationBtns] = useState(false);
@@ -30,6 +35,7 @@ function ArrayTool() {
       const jsonData = await response.json();
       
       setData(jsonData);
+      setLanguage(jsonData.language);
       updateTaskCounter(0);
     };
 
@@ -41,9 +47,14 @@ function ArrayTool() {
   useEffect(() => {
     if(data === undefined) return;
     
+    
     settaskLength(data.questionSet.length);
-    settooltitle(data['title']);
-    settoolmode(data.questionSet[taskCounter]['mode']);
+
+    setToolsTitle(data['langLabels'][language]['title']);
+    setToolsSubTitle(data['langLabels'][language]['mode'][data.questionSet[taskCounter]['mode']]);
+    setLangLabels(data['langLabels'][language])
+
+    // settoolmode(data.questionSet[taskCounter]['mode']);
     setcheckArrBtnEnable(data.questionSet[taskCounter]['checkarray'])
     setseeEquationBtns(data.questionSet[taskCounter]['seeEquationBtns'])
     setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
@@ -93,13 +104,14 @@ function ArrayTool() {
   }
 
   return (
-    <div className="arrayTool">
+    <div className={"arrayTool " + language}>
       <header>
-        <h1>{tooltitle}</h1>
-        <h2>{(toolmode === 'explore') ? 'Explore Mode' : 'Question Mode'}</h2>
+        <h1>{toolsTitle}</h1>
+        <h2>{toolsSubtitle}</h2>
       </header>
 
       <Grid
+        langLabels={langLabels}
         dimension={showDimension}
         setFinalArray={setFinalArray}
         checkBtnHit={checkBtnHit}
@@ -111,12 +123,15 @@ function ArrayTool() {
       {
         (checkArrBtnEnable) &&
         <QuestionSet
+          language={language}
+          langLabels={langLabels}
           task={task}
           qSetAns={qSetAns}
         />
       }
 
       <ButtonSet
+        langLabels={langLabels}
         toggleDimension={[toggleDimension, showDimension]}
         toggleQueBuilder={[toggleQueBuilder, enableBuildEqun]}
         checkArrBtnEnable={checkArrBtnEnable}
@@ -126,7 +141,7 @@ function ArrayTool() {
 
       {
         (queBuilderState) &&
-        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} array={finalArray} />
+        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} array={finalArray} langLabels={langLabels} />
       }
     </div>
   )

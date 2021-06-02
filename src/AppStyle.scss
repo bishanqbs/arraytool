@@ -9,17 +9,29 @@ body {
 }
 
 .arrayTool {
-  background-image: url("./images/base.png");
   background-repeat: no-repeat;
-  width: 1365px;
+  width: 1550px;
   height: 768px;
   overflow: hidden;
   font-family: "RubikLight";
 
+  &::before {
+    content: ''; display: block;
+    height: 768px; width: 5000px;
+    background-image: url("./images/base.png");
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-color: #0fabdd;
+    position: absolute;
+    transform: translate(-50%, 0);
+    left: 50%; top: 0;
+    z-index: -1;
+  }
+
   header {
     position: absolute;
     top: 17px;
-    left: 30px;
+    left: 40px;
     font-family: "RubikLight";
     background-color: #fff;
     padding: 10px 22px;
@@ -146,6 +158,8 @@ body {
     }
 
     .showEqn{
+      box-sizing: content-box;
+      border: 0 none;
       width: 245px; height: 39px; display: block; cursor: pointer;
       background-color: #fff6d5; border-radius: 20px; text-align: center;
       font-size: 20px; font-family: "RubikLight";  line-height: 39px; color: #603813;
@@ -162,32 +176,52 @@ body {
   .ButtonSet {
     text-align: center;
 
-    & > div {
-      width: 226px;
-      height: 58px;
+    & > button.mBtns {
+      // appearance: auto;
+      // -webkit-writing-mode: horizontal-tb !important;
+      // text-rendering: auto;
+      // letter-spacing: normal;
+      // word-spacing: normal;
+      // text-transform: none;
+      // text-indent: 0px;
+      // align-items: flex-start;
+      box-sizing: content-box;
+      border: 0 none;
+      
+      width: 208px;
+      height: 29px;
+      text-align: center;
+      background-color: #003e5f;
       background-image: url("./images/sprite.png");
       background-repeat: no-repeat;
-      background-position: 0 -1px;
+      background-position: -8px -5px;
       display: inline-block;
       margin: 0 8px 0 0;
       cursor: pointer;
-      font-size: 19px;
       color: #fff;
-      padding-top: 13px;
+      padding: 0 0 14px;
       text-shadow: 0px 1px 3px #000;
-      font-family: "RubikRegular";
-
+      font: normal 19px/43px "RubikRegular";
+      box-shadow: 0px 5px 6px rgba(3, 75, 221, 0.5);
+      border-radius: 22px;
+      
       &:hover {
-        background-position: 0 -151px;
+        background-color: #fb5b00;
+        background-position: -8px -155px;
+        box-shadow: 0px 5px 6px rgba(193, 24, 16, 0.5);
       }
       &.disable {
-        background-position: 0 -76px;
+        background-color: #999999;
+        background-position: -8px -80px;
+        box-shadow: 0px 5px 6px rgba(76, 76, 76, 0.5);
         pointer-events: none;
       }
     }
 
 
     .navi{
+      box-sizing: content-box;
+      border: 0 none;
       width: 70px; height: 70px;
       background: url('./images/navi.png') no-repeat 0 0 transparent;
       position: absolute; bottom: 17px;
@@ -213,20 +247,23 @@ body {
   .QuestionBuilder {
     position: absolute;
     right: 55px;
-    bottom: 95px;
-    width: 450px;
+    bottom: 103px;
+    width: 420px;
     height: 220px;
     border-radius: 10px 0 10px 10px;
     background-color: #ffe48f;
     text-align: center;
 
     .closeQB {
+      box-sizing: content-box;
+      border: 0 none;
       position: absolute;
       right: -1px;
       top: -24px;
       width: 33px;
       height: 24px;
       display: block;
+      background-color: rgba(0, 0, 0, 0);
       background-image: url("./images/sprite.png");
       background-repeat: no-repeat;
       background-position: -616px 0;
@@ -235,22 +272,29 @@ body {
     }
 
     .checkBtn_QB {
-      width: 140px;
-      height: 52px;
+      box-sizing: content-box;
+      border: 0 none;
+      width: 124px;
+      height: 26px;
+      margin: 5px 8px 4px 0;
+      cursor: pointer;
+      color: #fff;
+      padding: 0 0 15px;
+      text-shadow: 0px 1px 3px #000;
+      font: normal  19px/40px "RubikRegular";
+      float: right;
+      text-align: center;
       background-image: url("./images/sprite.png");
       background-repeat: no-repeat;
-      background-position: -258px -62px;
-      margin: 0 8px 0 0;
-      cursor: pointer;
-      font-size: 19px;
-      color: #fff;
-      padding-top: 13px;
-      text-shadow: 0px 1px 3px #000;
-      font-family: "RubikRegular";
-      float: right;
-
+      background-position: -265px -66px;
+      background-color: #fb5b00;
+      box-shadow: 0px 3px 4px rgba(193, 24, 16, 0.5);
+      border-radius: 22px;
+      
       &.disable {
-        background-position: -258px -1px;
+        background-position: -265px -4px;
+        background-color: #999999;
+        box-shadow: 0px 3px 4px rgba(76, 76, 76, 0.5);
         pointer-events: none;
       }
     }
@@ -370,7 +414,7 @@ body {
   .QuestionSet {
     position: absolute;
     top: 100px;
-    left: 40px;
+    left: 60px;
     width: 340px;
     
     & > div{
@@ -447,23 +491,29 @@ body {
     }
 
     .checkBtn_QS {
-      width: 140px;
-      height: 40px;
-      background-image: url("./images/sprite.png");
-      background-repeat: no-repeat;
-      background-position: -258px -62px;
-      margin: 5px 8px 0 0;
+      box-sizing: content-box;
+      border: 0 none;
+      width: 124px;
+      height: 26px;
+      margin: 5px 8px 4px 0;
       cursor: pointer;
-      font-size: 19px;
       color: #fff;
-      padding-top: 13px;
+      padding: 0 0 15px;
       text-shadow: 0px 1px 3px #000;
-      font-family: "RubikRegular";
+      font: normal  19px/40px "RubikRegular";
       float: right;
       text-align: center;
+      background-image: url("./images/sprite.png");
+      background-repeat: no-repeat;
+      background-position: -265px -66px;
+      background-color: #fb5b00;
+      box-shadow: 0px 3px 4px rgba(193, 24, 16, 0.5);
+      border-radius: 22px;
       
       &.disable {
-        background-position: -258px -1px;
+        background-position: -265px -4px;
+        background-color: #999999;
+        box-shadow: 0px 3px 4px rgba(76, 76, 76, 0.5);
         pointer-events: none;
       }
     }

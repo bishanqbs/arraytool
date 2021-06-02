@@ -59,7 +59,9 @@ function QuestionBuilder(props: any) {
   }
 
   const validateToAllowChecking = () => {
+    setDropdown(false);
     setUserAnswer('');
+    
     const fv = firstInput.current.value;
     const sv = secondInput.current.value;
     const av = answerInput.current.value;
@@ -69,38 +71,54 @@ function QuestionBuilder(props: any) {
     } else {
       setAllowToCheck(false);
     }
+  }
 
+  const handleSpace = (e:any, op:string) => {
+    if (e.keyCode === 32 || e.keyCode === 13)
+    {
+      setDropdown(!dropdown)
+
+      if(op != 'n') {
+        selectOperator(op);
+      }
+    }
   }
 
   return (
     <div className="QuestionBuilder">
-      <span className="closeQB" onClick={props.toggleQueBuilder}>Close</span>
-
       <span className={"feedbackText " + (userAnswer)}>
         {
           (userAnswer === 'correct') &&
-            <>Correct!</>
+            <>{props.langLabels['correct']}</>
         }
         {
           (userAnswer === 'incorrect') &&
-            <>Try again.</>
+            <>{props.langLabels['tryagain']}</>
         }
       </span>
 
       <div className="innerQB">
         <input type="text" ref={firstInput} onKeyUp={validateToAllowChecking} />
-        <span className="dd_QB" onClick={() => setDropdown(!dropdown)}>
+        <span className="dd_QB" onClick={() => setDropdown(!dropdown)} onKeyDown={(e) => handleSpace(e, 'n')} tabIndex={0}>
           <span className={"selected sign_"+operator}></span>
           <ul className={dropdown ? 'open' : ''}>
-            <li><span className="sign_m" onClick={() => selectOperator('m')}>Multiply</span></li>
-            <li><span className="sign_d" onClick={() => selectOperator('d')}>Divide</span></li>
+            <li><span className="sign_m" onClick={() => selectOperator('m')} onKeyDown={(e) => handleSpace(e, 'm')} tabIndex={0}>Multiply</span></li>
+            <li><span className="sign_d" onClick={() => selectOperator('d')} onKeyDown={(e) => handleSpace(e, 'd')} tabIndex={0}>Divide</span></li>
           </ul>
         </span>
         <input type="text" ref={secondInput} onKeyUp={validateToAllowChecking} />
         <span>=</span>
         <input type="text" ref={answerInput} onKeyUp={validateToAllowChecking} className={userAnswer} />
       </div>
-      <div className={"checkBtn_QB " + (allowToCheck ? '' : 'disable')} onClick={checkAnswer}>Check</div>
+      <button
+        className={"checkBtn_QB " + (allowToCheck ? '' : 'disable')}
+        onClick={checkAnswer}
+        tabIndex={allowToCheck ? 0 : -1}
+      >
+        {props.langLabels['check']}
+      </button>
+
+      <button className="closeQB" onClick={props.toggleQueBuilder}>Close</button>
     </div>
   );
 

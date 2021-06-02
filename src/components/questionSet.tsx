@@ -45,28 +45,34 @@ function QuestionSet(props: any) {
   return (
     <div className="QuestionSet">
       <div className="greyBox">
-        <span dangerouslySetInnerHTML={{ __html: "Task " + props.task['number'] + ":" }}></span>
-        <span dangerouslySetInnerHTML={{ __html: props.task['question'] }}></span>
+        <span dangerouslySetInnerHTML={{ __html: props.task['label'][props.language] }}></span>
+        <span dangerouslySetInnerHTML={{ __html: props.task['question'][props.language] }}></span>
         {
           (props.task['getuserinput']) &&
           <>
             <div className="innerBox">
               <span>
-                <label>rows:</label> <input type="text" ref={firstInput} onKeyUp={validateToAllowChecking} />
+                <label>{props.langLabels['rows']}:</label> <input type="text" ref={firstInput} onKeyUp={validateToAllowChecking} />
               </span>
               <span>
-                <label>columns:</label> <input type="text" ref={secondInput} onKeyUp={validateToAllowChecking} />
+                <label>{props.langLabels['columns']}:</label> <input type="text" ref={secondInput} onKeyUp={validateToAllowChecking} />
               </span>
             </div>
-            <div className={"checkBtn_QS " + (allowToCheck ? '' : 'disable')} onClick={checkAnswer}>Check</div>
+            <button
+              className={"checkBtn_QS " + (allowToCheck ? '' : 'disable')}
+              onClick={checkAnswer}
+              tabIndex={allowToCheck ? 0: -1}
+            >
+              {props.langLabels['check']}
+            </button>
             <span className={"feedbackText " + (userAnswer)}>
             {
               (userAnswer === 'correct') &&
-                <>Correct!</>
+                <>{props.langLabels['correct']}!</>
             }
             {
               (userAnswer === 'incorrect') &&
-                <>Try again.</>
+                <>{props.langLabels['tryagain']}</>
             }
           </span>
           </>

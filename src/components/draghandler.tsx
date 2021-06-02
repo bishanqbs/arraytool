@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import {useRef, useEffect} from 'react';
 
 function DragHandler(props:any) {
 
@@ -72,7 +72,9 @@ function DragHandler(props:any) {
   }
   
   // Register
-  dragElement(handler.current);
+  useEffect(() => {
+    dragElement(handler.current);
+  }, []);
   
   return (
       <div ref={handler} id="handlerId" className="dragHandler"></div>
