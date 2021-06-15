@@ -5,33 +5,46 @@
 }
 
 body {
-  overflow: hidden;
-}
-
-.arrayTool {
-  background-repeat: no-repeat;
-  width: 1550px;
-  height: 768px;
-  overflow: hidden;
-  font-family: "RubikLight";
+  background-color: #0fabdd;
+  overflow: auto;
+  position: relative;
+  padding: 1px;
 
   &::before {
-    content: ''; display: block;
+    content: '';
+    display: block;
     height: 768px; width: 5000px;
     background-image: url("./images/base.png");
     background-position: 50% 0;
     background-repeat: no-repeat;
     background-color: #0fabdd;
-    position: absolute;
+    position: fixed;
     transform: translate(-50%, 0);
     left: 50%; top: 0;
     z-index: -1;
   }
+}
+
+.arrayTool {
+  background-repeat: no-repeat;
+  // width: 1550px;
+  // height: 768px;
+  // overflow: hidden;
+  position: relative;
+  font-family: "RubikLight";
+  min-width: 330px;
+
+  margin: 40px 40px 17px;
+  border-radius: 22px 22px 15px 15px;
+  background-color: #fff;
+  padding: 1px 0 0;
+
+  
 
   header {
     position: absolute;
-    top: 17px;
-    left: 40px;
+    top: -23px;
+    left: 0px;
     font-family: "RubikLight";
     background-color: #fff;
     padding: 10px 22px;
@@ -45,146 +58,161 @@ body {
     }
   }
 
-  /* Grid */
-  .griD {
+  #section{
     position: relative;
-    margin: 87px auto 20px;
-    width: 579px;
-    height: 579px;
-    background-size: 48px 48px;
-    background-image: linear-gradient(to right, #e7e7e7 3px, transparent 3px),
-      linear-gradient(to bottom, #e7e7e7 3px, transparent 3px);
+    padding: 1px;
 
-    & > em {
-      position: absolute;
-      font-style: normal;
-      right: 5px;
-      top: -27px;
-      font-size: 18px;
-      line-height: 24px;
-      color: #000;
-    }
-    & > em::before {
-      content: "";
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      background-image: url("./images/sprite.png");
-      background-repeat: no-repeat;
-      background-position: -107px -15px;
-      background-size: 162.25px 52.25px;
-      margin: -3px 3px 0 0;
-      vertical-align: middle;
-    }
+    /* Grid */
+    .griD {
+      position: relative;
+      margin: 47px 0 20px;
+      width: 579px;
+      height: 579px;
+      background-size: 48px 48px;
+      background-image: linear-gradient(to right, #e7e7e7 3px, transparent 3px),
+        linear-gradient(to bottom, #e7e7e7 3px, transparent 3px);
 
-    .checkingFeedback{
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%); width: 80%;
-      border-radius: 25px; background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px 30px; font-size: 26px; font-family: "RubikLight"; line-height: 40px;
-      white-space: nowrap; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); text-align: center;
-      z-index: 1; pointer-events: none;
-
-      &.correct{
-        color: green;
-      }
-      &.incorrect{
-        color: red;
-      }
-
-      &:empty{ display: none;}
-    }
-
-    .cellS {
-      width: 45px;
-      height: 45px;
-      display: inline-block;
-      background-color: #7ac943;
-      text-align: center;
-      line-height: 37px;
-      margin: 3px 0 0 3px;
-      color: #fff;
-      font-weight: bold;
-      font-size: 110%;
-      transition: all linear 500ms;
-    }
-    .cellS.blank {
-      background-color: rgba(0, 0, 0, 0);
-    }
-
-    .flexGrid {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      pointer-events: none;
-      background-color: #000;
-      padding: 0 3px 3px 0;
-
-      .size_col, .size_row {
-        background-image: url("./images/sprite.png");
-        background-repeat: no-repeat;
-        background-position: -539px -143px;
-        width: 41px; height: 41px; display: block; line-height: 41px; text-align: center;
+      & > em {
         position: absolute;
-        font-family: "RubikRegular"; font-size: 22px;
-        pointer-events: none;
-
-        &:empty{
-          display: none;
+        font-style: normal;
+        right: 5px;
+        top: -27px;
+        font-size: 18px;
+        line-height: 24px;
+        color: #000;
+        
+        &::before {
+          content: "";
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          background-image: url("./images/sprite.png");
+          background-repeat: no-repeat;
+          background-position: -107px -15px;
+          background-size: 162.25px 52.25px;
+          margin: -3px 3px 0 0;
+          vertical-align: middle;
         }
       }
-      .size_col{ top: -43px; left: 50%; margin-left: -20.5px; }
-      .size_row{ right: -43px; top: 50%; margin-top: -20.5px; }
 
-      .equation{
+      .checkingFeedback{
         position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%); width: 80%;
         border-radius: 25px; background-color: rgba(255, 255, 255, 0.9);
-        padding: 5px 30px; font-size: 30px; font-family: "RubikLight"; line-height: 40px;
-        white-space: nowrap; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        padding: 10px 30px; font-size: 26px; font-family: "RubikLight"; line-height: 40px;
+        white-space: nowrap; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); text-align: center;
+        z-index: 1; pointer-events: none;
+
+        &.correct{
+          color: green;
+        }
+        &.incorrect{
+          color: red;
+        }
 
         &:empty{ display: none;}
       }
+
+      .cellS {
+        width: 45px;
+        height: 45px;
+        display: inline-block;
+        background-color: #7ac943;
+        text-align: center;
+        line-height: 37px;
+        margin: 3px 0 0 3px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 110%;
+        transition: all linear 500ms;
+
+        &.blank {
+          background-color: rgba(0, 0, 0, 0);
+        }
+      }
+
+      .flexGrid {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background-color: #000;
+        padding: 0 3px 3px 0;
+
+        .size_col, .size_row {
+          background-image: url("./images/sprite.png");
+          background-repeat: no-repeat;
+          background-position: -539px -143px;
+          width: 41px; height: 41px; display: block; line-height: 41px; text-align: center;
+          position: absolute;
+          font-family: "RubikRegular"; font-size: 22px;
+          pointer-events: none;
+
+          &:empty{
+            display: none;
+          }
+        }
+        .size_col{
+          top: -43px; left: 50%; margin-left: -20.5px;
+
+          &._fix{
+            left: 145px;
+          }
+        }
+        .size_row{ right: -43px; top: 50%; margin-top: -20.5px; }
+
+        .equation{
+          position: absolute; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 25px; background-color: rgba(255, 255, 255, 0.9);
+          padding: 5px 30px; font-size: 30px; font-family: "RubikLight"; line-height: 40px;
+          white-space: nowrap; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+          &:empty{ display: none;}
+        }
+      }
+
+      .dragHandler {
+        cursor: sw-resize;
+        position: absolute;
+        right: -15px;
+        top: -15px;
+        width: 60px;
+        height: 60px;
+        pointer-events: auto;
+      }
+
+      
     }
 
-    .dragHandler {
-      cursor: sw-resize;
-      position: absolute;
-      right: -15px;
-      top: -15px;
-      width: 60px;
-      height: 60px;
-      pointer-events: auto;
-    }
+    .sh_btns{
+      text-align: center;
+      padding-bottom: 10px;
 
-    .showEqn{
-      box-sizing: content-box;
-      border: 0 none;
-      width: 245px; height: 39px; display: block; cursor: pointer;
-      background-color: #fff6d5; border-radius: 20px; text-align: center;
-      font-size: 20px; font-family: "RubikLight";  line-height: 39px; color: #603813;
-      position: absolute; top: 270px;
-
-      &.m{ left: -303px;}
-      &.d{ right: -303px;}
-
-      &.active { background-color: #ffe274; color: #000; }
+      .showEqn{
+        box-sizing: content-box;
+        border: 0 none; margin: 0 10px 10px;
+        width: 245px; height: 39px; display: inline-block; cursor: pointer;
+        background-color: #fff6d5; border-radius: 20px; text-align: center;
+        font-size: 20px; font-family: "RubikLight";  line-height: 39px; color: #603813;
+        // position: absolute; top: 270px;
+        
+        // &.m{ left: -303px;}
+        // &.d{ right: -303px;}
+        
+        &.active { background-color: #ffe274; color: #000; }
+      }
     }
   }
 
   /* ButtonSet */
   .ButtonSet {
     text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    padding: 0 60px;
 
     & > button.mBtns {
-      // appearance: auto;
-      // -webkit-writing-mode: horizontal-tb !important;
-      // text-rendering: auto;
-      // letter-spacing: normal;
-      // word-spacing: normal;
-      // text-transform: none;
-      // text-indent: 0px;
-      // align-items: flex-start;
       box-sizing: content-box;
       border: 0 none;
       
@@ -196,7 +224,7 @@ body {
       background-repeat: no-repeat;
       background-position: -8px -5px;
       display: inline-block;
-      margin: 0 8px 0 0;
+      margin: 0 8px 10px 0;
       cursor: pointer;
       color: #fff;
       padding: 0 0 14px;
@@ -224,18 +252,19 @@ body {
       border: 0 none;
       width: 70px; height: 70px;
       background: url('./images/navi.png') no-repeat 0 0 transparent;
-      position: absolute; bottom: 17px;
+      position: absolute;
+      bottom: 0;
       border-radius: 50%;
       cursor: pointer; font-size: 0;
 
       &.prev{
-        left: 10px; background-position: -70px 0;
+        left: -20px; background-position: -70px 0;
 
         &:hover{ background-position: -140px 0; }
         &.disable{ background-position: 0 0; pointer-events: none; }
       }
       &.next{
-        right: 10px; background-position: -280px 0;
+        right: -20px; background-position: -280px 0;
 
         &:hover { background-position: -350px 0; }
         &.disable{ background-position: -210px 0; pointer-events: none; }
@@ -246,13 +275,25 @@ body {
   /* QuestionBuilder */
   .QuestionBuilder {
     position: absolute;
-    right: 55px;
-    bottom: 103px;
+    right: 10px;
+    bottom: 25px;
     width: 420px;
     height: 220px;
     border-radius: 10px 0 10px 10px;
     background-color: #ffe48f;
     text-align: center;
+
+    @media only screen and (max-width: 1365px) {
+      position: relative;
+      top: 0;
+      right: 0;
+      width: 60%;
+      margin: 10px auto 20px;
+      padding: 1px;
+    }
+    @media only screen and (max-width: 650px) {
+      width: 420px;
+    }
 
     .closeQB {
       box-sizing: content-box;
@@ -413,9 +454,20 @@ body {
   /* QuestionSet */
   .QuestionSet {
     position: absolute;
-    top: 100px;
-    left: 60px;
+    top: 40px;
+    left: 20px;
     width: 340px;
+    
+    @media only screen and (max-width: 1365px) {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 60%;
+      margin: 40px auto 0;
+    }
+    @media only screen and (max-width: 650px) {
+      width: 340px;
+    }
     
     & > div{
       padding: 5px;
@@ -519,4 +571,19 @@ body {
     }
 
   }
+}
+
+
+#reflector{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  top: 0; left: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  // border-color: yellow;
+  border-width: 90px 75px 95px;
+  border-style: solid;
+  opacity: 0
 }

@@ -81,6 +81,7 @@ function Grid(props: any) {
     }
 
     setUserCorrect(false);
+    let userCorrectTemp = false;
     
     for (let index = 0; index < possibleEquns.length; index++) {
       const tempEq = possibleEquns[index];
@@ -89,16 +90,25 @@ function Grid(props: any) {
         if (printEquation[0].split('<br>')[0] === tempEq) {
 
           setUserCorrect(true);
+          userCorrectTemp = true;
           break;
         }
       }
       if(obj.operator === 'devide'){
         if (printEquation[1] === tempEq) {
-
+          
           setUserCorrect(true);
+          userCorrectTemp = true;
           break;
         }
       }
+    }
+
+    if(userCorrectTemp) {
+      props.et("checkarray", "Correct");
+    }
+    else {
+      props.et("checkarray", "Incorrect");
     }
 
     setTimeout(() => {
@@ -135,6 +145,14 @@ function Grid(props: any) {
       "row": 12 - rowLimit,
       "column": colLimit + 1
     });
+
+    props.et(
+      "arraymanipulate",
+      {
+        "row": 12 - rowLimit,
+        "column": colLimit + 1
+      }
+    );
 
     // Preset Equation(s)
     let cRow = 12 - rowLimit;
@@ -173,16 +191,17 @@ function Grid(props: any) {
   }
 
   return (
-    <div className="griD">
+    <>
+    <div className="griD" id="griD" dir={props.language === "ar" ? "ltr" : 'auto'}>
 
-      <em>{props.langLabels['instruction']}</em>
+      <em dir={props.language === "ar" ? "rtl" : 'auto'}>{props.langLabels['instruction']}</em>
       <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
         {
           (userCorrect && userCorrect !== '') ? props.langLabels['correct'] : (!userCorrect && userCorrect !== '') ? props.langLabels['tryagain'] : ''
         }
       </span>
 
-      <div className="defaultGrid">
+      <div className="defaultGrid" role="presentation">
         {
           grid.defaultGrid.map((drow: any, i) => {
             return (
@@ -199,7 +218,7 @@ function Grid(props: any) {
           })
         }
       </div>
-      <div className="flexGrid">
+      <div className="flexGrid" role="presentation">
         <DragHandler update={updateFlexiGrid} />
 
         {
@@ -218,7 +237,7 @@ function Grid(props: any) {
           })
         }
 
-        <span className="size_col">{props.dimension ? grid.size.column : ''}</span>
+        <span className={"size_col " + (((grid.size.row == 12) && (grid.size.column > 6)) ? '_fix' : '')}>{props.dimension ? grid.size.column : ''}</span>
         <span className="size_row">{props.dimension ? grid.size.row : ''}</span>
 
         {
@@ -227,17 +246,20 @@ function Grid(props: any) {
         }
       </div>
 
+    </div>
       {
         // On screem multiply and division button
         (osMulDivBtns) &&
-        <>
+        <div className="sh_btns">
           <button
             className={"showEqn m " + (osMultiplication ? 'active' : '')}
             onClick={() => {
               setOSMultiplication(!osMultiplication);
               setOSDivision(false);
+
+              props.et("showmultiplication", (osMultiplication ? "Hide Multiplication" : "Show Multiplication"));
             }}
-          >
+            >
             {props.langLabels['showmultiplication']}
           </button>
           <button
@@ -245,13 +267,14 @@ function Grid(props: any) {
             onClick={() => {
               setOSDivision(!osDivision);
               setOSMultiplication(false);
+              props.et("showdivision", (osDivision ? "Hide Division" : "Show Division"));
             }}
           >
             {props.langLabels['showdivision']}
           </button>
-        </>
+        </div>
       }
-    </div>
+    </>
   )
 }
 

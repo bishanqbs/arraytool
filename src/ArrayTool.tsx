@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AppStyle.scss';
 
 import Grid from './components/grid';
@@ -15,6 +15,8 @@ function ArrayTool() {
   const [language, setLanguage] = useState("en");
   const [taskCounter, updateTaskCounter] = useState(-1);
   const [taskLength, settaskLength] = useState(0);
+  const [pageId, setPageID] = useState('0');
+  const [slideId, setSlideID] = useState('0');
 
   const [toolsTitle, setToolsTitle] = useState('');
   const [toolsSubtitle, setToolsSubTitle] = useState('');
@@ -54,7 +56,14 @@ function ArrayTool() {
     setToolsSubTitle(data['langLabels'][language]['mode'][data.questionSet[taskCounter]['mode']]);
     setLangLabels(data['langLabels'][language])
 
+    // let dir = language === 'ar' ? "rtl" : "ltr"
+    // document.documentElement.dir = dir;
+    document.documentElement.lang = language;
+
     // settoolmode(data.questionSet[taskCounter]['mode']);
+    setPageID(data.questionSet[taskCounter]['pageid'])
+    setSlideID(data.questionSet[taskCounter]['id'])
+
     setcheckArrBtnEnable(data.questionSet[taskCounter]['checkarray'])
     setseeEquationBtns(data.questionSet[taskCounter]['seeEquationBtns'])
     setenableBuildEqun(data.questionSet[taskCounter]['buildequation'])
@@ -102,6 +111,50 @@ function ArrayTool() {
   const qSetAns = (ans:any) => {
     setqSetUserAns(ans)
   }
+  
+  const pageidref = useRef<HTMLDivElement>(null);
+
+  // Event Tracking
+  const dispatchEvntTrack = (action:any, value:any) => {
+
+    let pageidelm = pageidref.current;
+    let pageid:any = 0;
+    let id:any = 0;
+
+    if (pageidelm !== null) {
+      let tmp = pageidelm.attributes[1]['nodeValue'];
+      if(tmp === null) return;
+      
+      pageid = tmp.split(" ")[0];
+      id = tmp.split(" ")[1];
+    }
+    
+    const postData = {
+        "type": "BEH_EVENT",
+        "value": {
+            "header": {
+                "eventType": "content.completed"
+            },
+            "body": {
+                "action": action,
+                "object": {
+                    "page_id": pageid,
+                    "id": id,
+                    "type": "arraytool",
+                    "name": "arraytool"
+                }
+            },
+            "context": {
+                "value": value
+            }
+        }
+    }
+    console.log(postData);
+    
+    
+    // Post Message
+    window.parent.postMessage(postData, "*");
+  }
 
   return (
     <div className={"arrayTool " + language}>
@@ -110,39 +163,53 @@ function ArrayTool() {
         <h2>{toolsSubtitle}</h2>
       </header>
 
-      <Grid
-        langLabels={langLabels}
-        dimension={showDimension}
-        setFinalArray={setFinalArray}
-        checkBtnHit={checkBtnHit}
-        task={task}
-        seeEqu={seeEquationBtns}
-        qSetAns={qSetUserAns}
-      />
+      <section id="section">
+        {
+          (checkArrBtnEnable) &&
+          <QuestionSet
+            language={language}
+            langLabels={langLabels}
+            task={task}
+            qSetAns={qSetAns}
+            et={dispatchEvntTrack}
+          />
+        }
 
-      {
-        (checkArrBtnEnable) &&
-        <QuestionSet
+        <Grid
           language={language}
           langLabels={langLabels}
+          dimension={showDimension}
+          setFinalArray={setFinalArray}
+          checkBtnHit={checkBtnHit}
           task={task}
-          qSetAns={qSetAns}
+          seeEqu={seeEquationBtns}
+          qSetAns={qSetUserAns}
+          et={dispatchEvntTrack}
         />
-      }
-
-      <ButtonSet
-        langLabels={langLabels}
-        toggleDimension={[toggleDimension, showDimension]}
-        toggleQueBuilder={[toggleQueBuilder, enableBuildEqun]}
-        checkArrBtnEnable={checkArrBtnEnable}
-        checkArrayClicked={checkArrayClicked}
-        updateTask={[updateTask, taskCounter, taskLength]}
-      />
 
       {
         (queBuilderState) &&
-        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} array={finalArray} langLabels={langLabels} />
+        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} array={finalArray} langLabels={langLabels} et={dispatchEvntTrack} />
       }
+      </section>
+
+      <footer>
+        <ButtonSet
+          langLabels={langLabels}
+          toggleDimension={[toggleDimension, showDimension]}
+          toggleQueBuilder={[toggleQueBuilder, enableBuildEqun]}
+          checkArrBtnEnable={checkArrBtnEnable}
+          checkArrayClicked={checkArrayClicked}
+          updateTask={[updateTask, taskCounter, taskLength]}
+          et={dispatchEvntTrack}
+        />
+      </footer>
+
+      
+
+
+      <div ref={pageidref} id="pageidref" className={pageId + ' ' + slideId}></div>
+      <div id="reflector"></div>
     </div>
   )
 

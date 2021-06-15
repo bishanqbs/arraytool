@@ -45,15 +45,27 @@ function QuestionBuilder(props: any) {
     } else {
       userSubAnswer = fv + '/' + sv + '=' + av;
     }
+
+    let tempAnswer = false;
     
     for (let index = 0; index < possibleAnswer.length; index++) {
       const eachAnswer = possibleAnswer[index];
 
       if(eachAnswer === userSubAnswer) {
         setUserAnswer('correct');
+        tempAnswer = true;
         break;
       }
       setUserAnswer('incorrect');
+      tempAnswer = false;
+    }
+
+    if(tempAnswer) {
+      props.et("buildequationsubmit", "Correct");
+    }
+    else
+    {
+      props.et("buildequationsubmit", "Incorrect")
     }
 
   }
@@ -114,6 +126,7 @@ function QuestionBuilder(props: any) {
         className={"checkBtn_QB " + (allowToCheck ? '' : 'disable')}
         onClick={checkAnswer}
         tabIndex={allowToCheck ? 0 : -1}
+        aria-disabled={(allowToCheck ? "false": "true")}
       >
         {props.langLabels['check']}
       </button>

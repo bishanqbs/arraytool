@@ -46,6 +46,8 @@
             "buildequation": true,
             "checkarray": false,
             "seeEquationBtns": true,
+            "pageid": "page_0",
+            "id": "slide_0",
             "task": {}
         },
         {
@@ -53,6 +55,8 @@
             "buildequation": false,
             "checkarray": true,
             "seeEquationBtns": false,
+            "pageid": "page_1",
+            "id": "slide_1",
             "task": {
                 "label": {
                     "en": "Task 1:",
@@ -75,6 +79,8 @@
             "buildequation": false,
             "checkarray": true,
             "seeEquationBtns": false,
+            "pageid": "page_2",
+            "id": "slide_2",
             "task": {
                 "label": {
                     "en": "Task 2:",
@@ -97,6 +103,8 @@
             "buildequation": true,
             "checkarray": true,
             "seeEquationBtns": false,
+            "pageid": "page_3",
+            "id": "slide_3",
             "task": {
                 "label": {
                     "en": "Task 3:",
@@ -104,7 +112,7 @@
                 },
                 "question": {
                     "en": "Show 42 ÷ 7 = 6.",
-                    "ar": "أظهر 42 7 = 6."
+                    "ar": "أظهر 42 ÷ 7 = 6."
                 },
                 "operator": "devide",
                 "row": 7,

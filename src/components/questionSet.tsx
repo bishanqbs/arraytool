@@ -24,9 +24,11 @@ function QuestionSet(props: any) {
     setUserAnswer('');
     if(props.task.row === fv && props.task.column === sv){
       setUserAnswer('correct');
+      props.et("questionsetsubmit", "Correct");
     }
     else {
       setUserAnswer('incorrect');
+      props.et("questionsetsubmit", "Incorrect");
     }
   }
 
@@ -45,8 +47,8 @@ function QuestionSet(props: any) {
   return (
     <div className="QuestionSet">
       <div className="greyBox">
-        <span dangerouslySetInnerHTML={{ __html: props.task['label'][props.language] }}></span>
-        <span dangerouslySetInnerHTML={{ __html: props.task['question'][props.language] }}></span>
+        <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['label'][props.language] }}></span>
+        <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['question'][props.language] }}></span>
         {
           (props.task['getuserinput']) &&
           <>
@@ -62,6 +64,7 @@ function QuestionSet(props: any) {
               className={"checkBtn_QS " + (allowToCheck ? '' : 'disable')}
               onClick={checkAnswer}
               tabIndex={allowToCheck ? 0: -1}
+              aria-disabled={(allowToCheck ? "false": "true")}
             >
               {props.langLabels['check']}
             </button>

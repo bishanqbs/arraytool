@@ -18,4 +18,4 @@ reportWebVitals();
 
 
 // Prevent any log, if by any chance remained Open
-console.log = function() {}
+// console.log = function() {}
