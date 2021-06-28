@@ -30,8 +30,10 @@ function ArrayTool() {
 
   // Fetching JSON and setting data
   useEffect(() => {
+    // let ppath = window.location.toString().split('=')[1];
     const fetchData = async () => {
       const response = await fetch(
+        // './data/'+ppath+'.json'
         './data/data.json'
       );
       const jsonData = await response.json();

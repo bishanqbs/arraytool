@@ -9,7 +9,7 @@ function QuestionSet(props: any) {
   const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
-    if (firstInput.current !== null) {
+    if (firstInput.current !== null && firstInput.current !== undefined) {
       firstInput.current.value = '';
       secondInput.current.value = '';
     }

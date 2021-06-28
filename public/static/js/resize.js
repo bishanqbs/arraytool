@@ -32,7 +32,7 @@ if(zoomFactor < 0.5) {
   var wdtDiff = rwidth - config.stageWidth*zoomFactor;
   var sectionWidth = section.clientWidth/2 - (config.stageWidth*zoomFactor)/2;
 
-  console.log(sectionWidth);
+  // console.log(sectionWidth);
 
   var s = {};
   for (var i in (s = {
