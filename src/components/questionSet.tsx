@@ -4,6 +4,7 @@ function QuestionSet(props: any) {
 
   const firstInput = useRef() as MutableRefObject<HTMLInputElement>;
   const secondInput = useRef() as MutableRefObject<HTMLInputElement>;
+  const QuestionSetTitle = useRef() as MutableRefObject<HTMLDivElement>;
   
   const [allowToCheck, setAllowToCheck] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
@@ -15,6 +16,9 @@ function QuestionSet(props: any) {
     }
     setUserAnswer('');
     setAllowToCheck(false);
+
+    QuestionSetTitle.current.focus()
+    QuestionSetTitle.current.scrollIntoView();
   }, [props.task]);
 
   const checkAnswer = () => {
@@ -24,12 +28,17 @@ function QuestionSet(props: any) {
     setUserAnswer('');
     if(props.task.row === fv && props.task.column === sv){
       setUserAnswer('correct');
-      props.et("questionsetsubmit", "Correct");
+      // Event Tracking
+      // props.et("questionsetsubmit", "correct");
+      props.et("questionsetsubmit", { "result": "correct", "answer": [fv, sv] });
     }
     else {
       setUserAnswer('incorrect');
-      props.et("questionsetsubmit", "Incorrect");
+      // Event Tracking
+      // props.et("questionsetsubmit", "incorrect");
+      props.et("questionsetsubmit", { "result": "incorrect", "answer": [fv, sv] });
     }
+
   }
 
   const validateToAllowChecking = () => {
@@ -47,17 +56,28 @@ function QuestionSet(props: any) {
   return (
     <div className="QuestionSet">
       <div className="greyBox">
-        <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['label'][props.language] }}></span>
-        <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['question'][props.language] }}></span>
+        <div
+          id='secTitle'
+          ref={QuestionSetTitle}
+          tabIndex={0}
+          aria-label={
+            props.task['label'][props.language] + " " + props.task['question'][props.language]
+          }
+        >
+          <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['label'][props.language] }}></span>
+          <span  dir={props.language === "en" ? "ltr" : 'rtl'} dangerouslySetInnerHTML={{ __html: props.task['question'][props.language] }}></span>
+        </div>
         {
           (props.task['getuserinput']) &&
           <>
             <div className="innerBox">
               <span>
-                <label>{props.langLabels['rows']}:</label> <input type="text" ref={firstInput} onKeyUp={validateToAllowChecking} />
+                <label id="labelrow">{props.langLabels['rows']}:</label> &nbsp;
+                <input type="text" ref={firstInput} onKeyUp={validateToAllowChecking} autoComplete="off" aria-labelledby="labelrow" />
               </span>
               <span>
-                <label>{props.langLabels['columns']}:</label> <input type="text" ref={secondInput} onKeyUp={validateToAllowChecking} />
+                <label id="labelcolumn">{props.langLabels['columns']}:</label> &nbsp;
+                <input type="text" ref={secondInput} onKeyUp={validateToAllowChecking} autoComplete="off" aria-labelledby="labelcolumn" />
               </span>
             </div>
             <button
@@ -65,10 +85,11 @@ function QuestionSet(props: any) {
               onClick={checkAnswer}
               tabIndex={allowToCheck ? 0: -1}
               aria-disabled={(allowToCheck ? "false": "true")}
+              // aria-labelledby="secTitle"
             >
               {props.langLabels['check']}
             </button>
-            <span className={"feedbackText " + (userAnswer)}>
+            <span className={"feedbackText " + (userAnswer)} role="status">
             {
               (userAnswer === 'correct') &&
                 <>{props.langLabels['correct']}!</>

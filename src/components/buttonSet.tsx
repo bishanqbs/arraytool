@@ -5,28 +5,44 @@ function ButtonSet(props: any) {
   return (
     <div className="ButtonSet">
       {
+        (props.language !== 'ar') &&
         // Previous Task Button
         <button
           className={"navi prev " + (props.updateTask[1] > 0 ? '' : 'disable')}
           onClick={(e) => {
-            if(props.updateTask[1] == 1) {
-              e.currentTarget.blur()
-            }
+            if(props.updateTask[1] === 1) { e.currentTarget.blur() }
             props.updateTask[0]('-');
-            props.et("backbutton", "Back");
+            props.et("backbutton", { "value": "Back", "id": props.updateTask[3] });
           }}
           tabIndex={(props.updateTask[1] > 0) ? 0 : -1}
         >
           Previous Task
         </button>
       }
+      {
+        (props.language === 'ar') &&
+        // Next Task Button
+        <button
+          className={"navi prev " + (props.updateTask[1] < (props.updateTask[2] - 1) ? '' : 'disable')}
+          onClick={(e) => {
+            if((props.updateTask[1] + 1) === (props.updateTask[2] - 1)) { e.currentTarget.blur(); }
+            props.updateTask[0]('+');
+            props.et("nextbutton", { "value": "Next", "id": props.updateTask[3] });
+          }}
+          tabIndex={(props.updateTask[1] < (props.updateTask[2] - 1)) ? 0 : -1}
+        >
+          Next Task
+        </button>
+      }
 
 
 
       <button onClick={() => {
-        props.toggleDimension[0]()
-        props.et("showdimension", (props.toggleDimension[1] ? "Hide Dimension" : "Show Dimension"));
-      }} className="mBtns">
+          props.toggleDimension[0]()
+          props.et("showdimension", (props.toggleDimension[1] ? "Hide Dimension" : "Show Dimension"));
+        }}
+        className="mBtns"
+      >
           {props.toggleDimension[1] ? props.langLabels['hidedimension'] : props.langLabels['showdimension']}
       </button>
 
@@ -51,19 +67,33 @@ function ButtonSet(props: any) {
 
       
       {
+        (props.language !== 'ar') &&
         // Next Task Button
         <button
           className={"navi next " + (props.updateTask[1] < (props.updateTask[2] - 1) ? '' : 'disable')}
           onClick={(e) => {
-            if((props.updateTask[1] + 1) == (props.updateTask[2] - 1)) {
-              e.currentTarget.blur();
-            }
+            if((props.updateTask[1] + 1) === (props.updateTask[2] - 1)) { e.currentTarget.blur(); }
             props.updateTask[0]('+');
-            props.et("nextbutton", "Next");
+            props.et("nextbutton", { "value": "Next", "id": props.updateTask[3] });
           }}
           tabIndex={(props.updateTask[1] < (props.updateTask[2] - 1)) ? 0 : -1}
         >
           Next Task
+        </button>
+      }
+      {
+        (props.language === 'ar') &&
+        // Previous Task Button
+        <button
+          className={"navi next " + (props.updateTask[1] > 0 ? '' : 'disable')}
+          onClick={(e) => {
+            if(props.updateTask[1] === 1) { e.currentTarget.blur() }
+            props.updateTask[0]('-');
+            props.et("backbutton", { "value": "Back", "id": props.updateTask[3] });
+          }}
+          tabIndex={(props.updateTask[1] > 0) ? 0 : -1}
+        >
+          Previous Task
         </button>
       }
     </div>

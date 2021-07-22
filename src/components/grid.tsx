@@ -55,7 +55,7 @@ function Grid(props: any) {
         }
       }
     });
-    updateFlexiGrid(9,2);
+    // updateFlexiGrid(9,2);
     setOSMultiplication(false);
     setOSDivision(false)
     
@@ -122,7 +122,7 @@ function Grid(props: any) {
     for (let index = 0; index < (12 - rowLimit); index++) {
       let row = [];
       for (let index = 0; index <= colLimit; index++) {
-        let col = 'c';
+        let col = '';
         row.push(col);
       }
       table.push(row)
@@ -158,12 +158,12 @@ function Grid(props: any) {
     let cRow = 12 - rowLimit;
     let cColm = colLimit + 1;
     const meq =
-      cRow + ' &times; ' + cColm + ' = ' +  cRow*cColm + '<br>' + 
-      cColm + ' &times; ' + cRow + ' = ' +  cRow*cColm
+      cRow + ' &times; ' + cColm + ' = ' +  cRow*cColm + 
+      (cRow !== cColm ? ('<br>' + cColm + ' &times; ' + cRow + ' = ' +  cRow*cColm) : '')
     ;
     const deq = 
-      cRow*cColm + ' &divide; ' + cColm + ' = ' + cRow + '<br>' +
-      cRow*cColm + ' &divide; ' + cRow + ' = ' + cColm
+      cRow*cColm + ' &divide; ' + cColm + ' = ' + cRow + 
+      (cRow !== cColm ? ('<br>' + cRow*cColm + ' &divide; ' + cRow + ' = ' + cColm) : '')
     ;
     setPrintEquation([ meq, deq ]);
 
@@ -190,12 +190,19 @@ function Grid(props: any) {
     })
   }
 
+  
+  const [gridValueChange, setGridValueChange] = useState(false);
+  const ariatoggle =  (val:boolean) => {
+    setGridValueChange(val)
+  }
+
   return (
     <>
-    <div className="griD" id="griD" dir={props.language === "ar" ? "ltr" : 'auto'}>
+    <div className={"griD "+ (props.checkArrBtnEnable ? '_qset' : '')} id="griD" dir={props.language === "ar" ? "ltr" : 'auto'}>
 
-      <em dir={props.language === "ar" ? "rtl" : 'auto'}>{props.langLabels['instruction']}</em>
-      <span className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}>
+      <em id="toolsInstruction" dir={props.language === "ar" ? "rtl" : 'auto'}>{props.langLabels['instruction']}</em>
+      <span id="toolsFeedback" className={"checkingFeedback " + (userCorrect ? 'correct' : 'incorrect')}
+        aria-live="polite" role="region">
         {
           (userCorrect && userCorrect !== '') ? props.langLabels['correct'] : (!userCorrect && userCorrect !== '') ? props.langLabels['tryagain'] : ''
         }
@@ -219,7 +226,7 @@ function Grid(props: any) {
         }
       </div>
       <div className="flexGrid" role="presentation">
-        <DragHandler update={updateFlexiGrid} />
+        <DragHandler update={updateFlexiGrid} grid={grid['size']} label={props.langLabels['instruction']} ariatoggle={ariatoggle} />
 
         {
           grid.flexiGrid.map((row, i) => {
@@ -237,12 +244,38 @@ function Grid(props: any) {
           })
         }
 
-        <span className={"size_col " + (((grid.size.row == 12) && (grid.size.column > 6)) ? '_fix' : '')}>{props.dimension ? grid.size.column : ''}</span>
-        <span className="size_row">{props.dimension ? grid.size.row : ''}</span>
+        {
+          (props.dimension) &&
+          <>
+            <span aria-hidden="true" className={"size_col " + (((grid.size.row === 12) && (grid.size.column > 6)) ? '_fix' : '')}>{props.dimension ? grid.size.column : ''}</span>
+            <span aria-hidden="true" className="size_row">{props.dimension ? grid.size.row : ''}</span>
+          </>
+        }
+
+        
+        <div aria-live="polite" role="region" className="visuallyHidden"
+          dangerouslySetInnerHTML={{__html:
+            (props.dimension || gridValueChange) ? (grid.size.row + "rows by" + grid.size.column + "columns")
+            :
+            " "
+          }}
+        > 
+        </div>
 
         {
-          (osMultiplication || osDivision) &&
-            <span className="equation" dangerouslySetInnerHTML={{__html: (osMultiplication) ? printEquation[0] : printEquation[1]}}></span>
+          // (osMultiplication || osDivision) &&
+            <span
+              className={"equation " + ((osMultiplication || osDivision) ? "" : "hide")}
+              dangerouslySetInnerHTML={{__html:
+                (osMultiplication || osDivision) ?
+                (osMultiplication) ? printEquation[0] : printEquation[1]
+                :
+                " "
+              }}
+              role="region"
+              aria-live="polite"
+            >
+            </span>
         }
       </div>
 
@@ -259,7 +292,8 @@ function Grid(props: any) {
 
               props.et("showmultiplication", (osMultiplication ? "Hide Multiplication" : "Show Multiplication"));
             }}
-            >
+            aria-label={props.langLabels['showmultiplication']}
+          >
             {props.langLabels['showmultiplication']}
           </button>
           <button

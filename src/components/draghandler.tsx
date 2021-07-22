@@ -4,6 +4,7 @@ function DragHandler(props:any) {
 
   // it's common to initialise refs with null
   const handler = useRef(null);
+  let lastElemId:any = "9_1";
 
   function dragElement(elmnt:any) {
 
@@ -41,9 +42,12 @@ function DragHandler(props:any) {
       var x = e.clientX, y = e.clientY;
       var dd = getDropingElement(document.elementsFromPoint(x, y));
 
-      if(dd !== undefined){
+      if(dd !== undefined && dd.id !== lastElemId){
+        
         let id:any = (dd.id).split('_');
-        props.update(parseInt(id[0]), parseInt(id[1]))
+        props.update(parseInt(id[0]), parseInt(id[1]));
+
+        lastElemId = dd.id;
       }
       
     }
@@ -68,16 +72,47 @@ function DragHandler(props:any) {
 
       elmnt.removeAttribute("style");
     }
+  }
 
+  const handleKeyPress = (e:any) => {
+    // left: 37
+    // up: 38
+    // right: 39
+    // down: 40
+    let keys:any = {"37": 1, "38": 1, "39": 1, "40": 1};
+    if (keys[e.keyCode] !== 1) { return false; }
+
+    e.preventDefault(); // Purpose - Prevent scrolling
+    props.ariatoggle(true);
+
+    let row = 12 - props.grid['row'];
+    let column = props.grid['column'] - 1; 
+
+    switch (e.keyCode) {
+      case 37: if(column !== 0) column = column - 1; break;
+      case 38: if(row !== 0) row = row - 1; break;
+      case 39: if(column !== 11) column = column + 1; break;
+      case 40: if(row !== 11) row = row + 1; break;
+      default: break;
+    }
+    
+    // console.log(row, column);
+    props.update(row, column); 
   }
   
   // Register
   useEffect(() => {
     dragElement(handler.current);
+    // eslint-disable-next-line
   }, []);
   
   return (
-      <div ref={handler} id="handlerId" className="dragHandler"></div>
+      <div
+        ref={handler} id="handlerId" className="dragHandler"
+        aria-label={props.label} tabIndex={0}
+        onKeyDown={handleKeyPress}
+        onBlur={() => props.ariatoggle(false)}
+      ></div>
   );
 }
 

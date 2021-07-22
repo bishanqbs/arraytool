@@ -5,7 +5,7 @@ import Grid from './components/grid';
 import ButtonSet from './components/buttonSet';
 import QuestionBuilder from './components/questionBuilder';
 import QuestionSet from './components/questionSet';
-import { settings } from 'cluster';
+// import { settings } from 'cluster';
 
 // import * as data from './data/data.json';
 
@@ -146,9 +146,8 @@ function ArrayTool() {
                     "name": "arraytool"
                 }
             },
-            "context": {
-                "value": value
-            }
+            // "context": (action === "arraymanipulate" ? value : { "value": value })
+            "context": value
         }
     }
     console.log(postData);
@@ -184,6 +183,7 @@ function ArrayTool() {
           setFinalArray={setFinalArray}
           checkBtnHit={checkBtnHit}
           task={task}
+          checkArrBtnEnable={checkArrBtnEnable}
           seeEqu={seeEquationBtns}
           qSetAns={qSetUserAns}
           et={dispatchEvntTrack}
@@ -191,21 +191,22 @@ function ArrayTool() {
 
       {
         (queBuilderState) &&
-        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} array={finalArray} langLabels={langLabels} et={dispatchEvntTrack} />
+        <QuestionBuilder toggleQueBuilder={toggleQueBuilder} task={task} array={finalArray} langLabels={langLabels} et={dispatchEvntTrack} />
       }
       </section>
 
-      <footer>
+      <>
         <ButtonSet
+          language={language}
           langLabels={langLabels}
           toggleDimension={[toggleDimension, showDimension]}
           toggleQueBuilder={[toggleQueBuilder, enableBuildEqun]}
           checkArrBtnEnable={checkArrBtnEnable}
           checkArrayClicked={checkArrayClicked}
-          updateTask={[updateTask, taskCounter, taskLength]}
+          updateTask={[updateTask, taskCounter, taskLength, slideId]}
           et={dispatchEvntTrack}
         />
-      </footer>
+      </>
 
       
 
